@@ -132,8 +132,12 @@ for symbol in regs['codec_register']:
 
 reg_code += """
 WS_DLL_PUBLIC_DEF const gchar plugin_version[] = PLUGIN_VERSION;
-WS_DLL_PUBLIC_DEF const int plugin_want_major = VERSION_MAJOR;
-WS_DLL_PUBLIC_DEF const int plugin_want_minor = VERSION_MINOR;
+WS_DLL_PUBLIC_DEF const gchar plugin_release[] = VERSION_RELEASE;
+
+// I have Wireshark 2.6.2 installed and it still uses `VERSION_RELEASE`.
+//
+//     WS_DLL_PUBLIC_DEF const int plugin_want_major = VERSION_MAJOR;
+//     WS_DLL_PUBLIC_DEF const int plugin_want_minor = VERSION_MINOR;
 
 WS_DLL_PUBLIC void plugin_register(void);
 
