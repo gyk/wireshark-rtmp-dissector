@@ -62,7 +62,7 @@
 
 #include <epan/prefs.h>
 #include <epan/to_str.h>
-#include "packet-tcp.h"
+#include <epan/dissectors/packet-tcp.h>
 
 /* #define DEBUG_RTMPT 1 */
 
@@ -1671,7 +1671,7 @@ dissect_rtmpt(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, rtmpt_conv_t 
         guint32     iBodyOffset    = 0;
         guint32     iBodyRemain    = 0;
 
-        col_set_str(pinfo->cinfo, COL_PROTOCOL, "RTMP");
+        col_set_str(pinfo->cinfo, COL_PROTOCOL, "RTMP2");
 
         RTMPT_DEBUG("Dissect: frame=%u visited=%d len=%d tree=%p\n",
                     pinfo->num, pinfo->fd->flags.visited,
@@ -2694,7 +2694,7 @@ proto_register_rtmpt(void)
 
         module_t *rtmpt_module;
 
-        proto_rtmpt = proto_register_protocol("Real Time Messaging Protocol", "RTMPT", "rtmpt");
+        proto_rtmpt = proto_register_protocol("Real Time Messaging Protocol 2", "RTMPT2", "rtmpt2");
         proto_register_field_array(proto_rtmpt, hf, array_length(hf));
         proto_register_subtree_array(ett, array_length(ett));
 
@@ -2908,7 +2908,7 @@ proto_register_amf(void)
                 &ett_amf_trait_member,
         };
 
-        proto_amf = proto_register_protocol("Action Message Format", "AMF", "amf");
+        proto_amf = proto_register_protocol("Action Message Format 2", "AMF2", "amf2");
         proto_register_field_array(proto_amf, hf, array_length(hf));
         proto_register_subtree_array(ett, array_length(ett));
 }
@@ -2918,7 +2918,7 @@ proto_reg_handoff_rtmpt(void)
 {
         dissector_handle_t amf_handle;
 
-        heur_dissector_add("tcp", dissect_rtmpt_heur, "RTMPT over TCP", "rtmpt_tcp", proto_rtmpt, HEURISTIC_DISABLE);
+        heur_dissector_add("tcp", dissect_rtmpt_heur, "RTMPT2 over TCP", "rtmpt2_tcp", proto_rtmpt, HEURISTIC_DISABLE);
         rtmpt_tcp_handle = create_dissector_handle(dissect_rtmpt_tcp, proto_rtmpt);
         dissector_add_uint_with_preference("tcp.port", RTMP_PORT, rtmpt_tcp_handle);
 
